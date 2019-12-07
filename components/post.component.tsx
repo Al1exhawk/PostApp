@@ -1,4 +1,4 @@
-import { Post } from "../models"
+import { PostModel } from "../models"
 import Link from 'next/link'
 import styled from 'styled-components'
 
@@ -23,10 +23,10 @@ const StyledPost = styled.section`
 
 
 type Props = {
-    post: Post
+    post: PostModel
 }
 
-const aPost: React.FC<Props> = ({ post }) => {
+const Post: React.FC<Props> = ({ post }) => {
     return (
         <StyledPost>
             <p>Id: {post.id}</p>
@@ -36,4 +36,4 @@ const aPost: React.FC<Props> = ({ post }) => {
         </StyledPost>
     )
 }
-export default aPost;
+export default Post;

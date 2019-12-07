@@ -1,5 +1,5 @@
 import { Action, Dispatch } from "redux";
-import { Post } from "../../models";
+import { PostModel } from "../../models";
 import axios, { AxiosResponse } from "axios";
 
 export const FETCH_POSTS = "FETCH_POSTS";
@@ -11,14 +11,14 @@ export interface fetchPostsAction extends Action {
 }
 export interface onFetchSuccesAction extends Action {
   type: typeof FETCHING_SUCCES;
-  posts: Post[];
+  posts: PostModel[];
 }
 export interface onFetchErrorAction extends Action {
   type: typeof FETCH_ERROR;
   error: any;
 }
 
-export type postsActions =
+export type PostsActions =
   | fetchPostsAction
   | onFetchSuccesAction
   | onFetchErrorAction;
@@ -26,7 +26,7 @@ export type postsActions =
 export const fetchPosts = () => async (dispatch: Dispatch) => {
   dispatch({ type: FETCH_POSTS } as fetchPostsAction);
   try {
-    const serverResponse = await axios.get<null, AxiosResponse<Post[]>>(
+    const serverResponse = await axios.get<null, AxiosResponse<PostModel[]>>(
       "https://simple-blog-api.crew.red/posts",
       {
         responseType: "json"

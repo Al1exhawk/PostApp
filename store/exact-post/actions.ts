@@ -1,24 +1,27 @@
 import { Action, Dispatch } from "redux";
-import { exactPost } from "../../models";
-import axios, { AxiosResponse } from "axios";
+import { ExactPostModel } from "../../models";
+import { PostService } from "../../services";
 
 export const FETCH_POST = "FETCH_POST";
-export const EXACT_POST_FETCHING_SUCCES = "EXACT_POST_FETCHING_FETCHING_SUCCES";
-export const EXACT_POST_FETCH_ERROR = "EXACT_POST_FETCHING_FETCH_ERROR";
+export const EXACT_POST_FETCHING_SUCCES = "EXACT_POST_FETCHING_SUCCES";
+export const EXACT_POST_FETCH_ERROR = "EXACT_POST_FETCHING_ERROR";
 
 export interface fetchPostAction extends Action {
   type: typeof FETCH_POST;
+  id: string;
 }
+
 export interface onExactPostFetchSuccesAction extends Action {
   type: typeof EXACT_POST_FETCHING_SUCCES;
-  post: exactPost;
+  post: ExactPostModel;
 }
+
 export interface onExactPostFetchErrorAction extends Action {
   type: typeof EXACT_POST_FETCH_ERROR;
   error: any;
 }
 
-export type exactPostActions =
+export type ExactPostActions =
   | fetchPostAction
   | onExactPostFetchSuccesAction
   | onExactPostFetchErrorAction;
@@ -26,14 +29,8 @@ export type exactPostActions =
 export const fetchExactPost = (id: string) => async (dispatch: Dispatch) => {
   dispatch({ type: FETCH_POST } as fetchPostAction);
   try {
-    const serverResponse = await axios.get<null, AxiosResponse<exactPost>>(
-      `https://simple-blog-api.crew.red/posts/${id}?_embed=comments`,
-      {
-        responseType: "json"
-      }
-    );
-    const data = serverResponse.data;
-    console.log("data", data);
+    const api = new PostService();
+    const data = await api.getExactPost(id);
     dispatch({
       type: EXACT_POST_FETCHING_SUCCES,
       post: data

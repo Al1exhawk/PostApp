@@ -1,20 +1,20 @@
-import { FETCHING_SUCCES, FETCH_ERROR, FETCH_POSTS, postsActions } from ".";
+import { FETCHING_SUCCES, FETCH_ERROR, FETCH_POSTS, PostsActions } from ".";
 import { Reducer } from "redux";
-import { Post } from "../../models";
+import { PostModel } from "../../models";
 
-interface postsState {
-  posts: ReadonlyArray<Post>;
+interface PostsState {
+  posts: ReadonlyArray<PostModel>;
   readonly isFetching: boolean;
   readonly error: any;
 }
 
-const initialState: postsState = {
+const initialState: PostsState = {
   posts: [],
   isFetching: false,
   error: null
 };
 
-export const postsReducer: Reducer<postsState, postsActions> = (
+export const postsReducer: Reducer<PostsState, PostsActions> = (
   state = initialState,
   action
 ) => {

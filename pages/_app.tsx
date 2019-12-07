@@ -1,4 +1,4 @@
-import { makeStore } from "../store";
+import { configureStore } from "../store";
 import { Provider } from "react-redux";
 import withRedux from 'next-redux-wrapper';
 const MyApp = ({ Component, pageProps, store }) => {
@@ -9,4 +9,4 @@ const MyApp = ({ Component, pageProps, store }) => {
     );
 };
 
-export default withRedux(makeStore)(MyApp);
+export default withRedux(configureStore)(MyApp);

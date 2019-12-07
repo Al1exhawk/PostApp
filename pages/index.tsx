@@ -1,5 +1,5 @@
 import { Layout } from "../components"
-import { PostsConteiner } from "../conteiners"
+import { PostsConteiner } from "../containers"
 
 
 const Home: React.FC = () => (

@@ -1,15 +1,20 @@
-export interface Post {
+export interface PostModel {
   id: number;
   title: string;
   body: string;
 }
 
-export interface Comment {
+export interface CommentModel {
   id: number;
   postId: number;
   body: string;
 }
 
-export interface exactPost extends Post {
-  comments: Comment[];
+export interface ExactPostModel extends PostModel {
+  comments: CommentModel[];
+}
+
+export interface NewPostModel {
+  title: string;
+  body: string;
 }
