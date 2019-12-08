@@ -4,7 +4,7 @@ import { PostService } from '../../services';
 
 function* fetchPosts() {
     try {
-        const api = yield new PostService();
+        const api = new PostService();
         const data = yield call(api.getAllPost);
         yield put<onFetchSuccesAction>({
             type: FETCHING_SUCCES,
