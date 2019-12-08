@@ -1,43 +1,46 @@
-import { Layout } from "../../components"
-import styled from "styled-components"
-import React, { FormEvent, ChangeEvent } from 'react'
-import axios, { AxiosResponse } from 'axios'
-import { Post } from '../../models'
+import { Layout } from '../../components';
+import styled from 'styled-components';
+import React, { FormEvent, ChangeEvent } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { GenericState } from '../../store';
+import { CreateNewPostAction, CREATE_NEW_POST, formInputChangeAction, FORM_INPUT_CHANGE } from '../../store/new-post';
 const StyledForm = styled.form`
-    background-color: #51EAFF;
+    background-color: #51eaff;
     display: flex;
     flex-direction: column;
     maargin: auto;
-`
+`;
 
 interface newPost {
-    title: string,
-    body: string
+    title: string;
+    body: string;
 }
 
 const newPost: React.FC = () => {
-    const [newPost, setValue] = React.useState<newPost>({ title: '', body: '' });
-
+    const Post = useSelector((state: GenericState) => ({
+        ...state.newPost.newPost,
+    }));
+    const dispatch = useDispatch();
     const onsubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const serverResponse = await axios.post<newPost, AxiosResponse<Post>>('https://simple-blog-api.crew.red/posts', newPost, { responseType: 'json' });
-
-    }
+        dispatch<CreateNewPostAction>({ type: CREATE_NEW_POST, newPost: Post });
+    };
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
-        setValue(({
-            ...newPost, [name]: value
-        }));
-    }
+        dispatch<formInputChangeAction>({
+            type: FORM_INPUT_CHANGE,
+            post: { ...Post, [name]: value },
+        });
+    };
     return (
         <Layout>
             <StyledForm onSubmit={onsubmit}>
-                <input type="text" name='title' required value={newPost.title} onChange={onChange} />
-                <input type="text" name='body' required value={newPost.body} onChange={onChange} />
+                <input type='text' name='title' required value={Post.title} onChange={onChange} />
+                <input type='text' name='body' required value={Post.body} onChange={onChange} />
                 <button>Add</button>
             </StyledForm>
         </Layout>
-    )
-}
+    );
+};
 
 export default newPost;

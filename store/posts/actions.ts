@@ -1,40 +1,20 @@
-import { Action, Dispatch } from "redux";
-import { PostModel } from "../../models";
-import axios, { AxiosResponse } from "axios";
+import { Action } from 'redux';
+import { PostModel } from '../../models';
 
-export const FETCH_POSTS = "FETCH_POSTS";
-export const FETCHING_SUCCES = "FETCHING_SUCCES";
-export const FETCH_ERROR = "FETCH_ERROR";
+export const FETCH_POSTS = 'FETCH_POSTS';
+export const FETCHING_SUCCES = 'FETCHING_SUCCES';
+export const FETCH_ERROR = 'FETCH_ERROR';
 
 export interface fetchPostsAction extends Action {
-  type: typeof FETCH_POSTS;
+    type: typeof FETCH_POSTS;
 }
 export interface onFetchSuccesAction extends Action {
-  type: typeof FETCHING_SUCCES;
-  posts: PostModel[];
+    type: typeof FETCHING_SUCCES;
+    posts: PostModel[];
 }
 export interface onFetchErrorAction extends Action {
-  type: typeof FETCH_ERROR;
-  error: any;
+    type: typeof FETCH_ERROR;
+    error: any;
 }
 
-export type PostsActions =
-  | fetchPostsAction
-  | onFetchSuccesAction
-  | onFetchErrorAction;
-
-export const fetchPosts = () => async (dispatch: Dispatch) => {
-  dispatch({ type: FETCH_POSTS } as fetchPostsAction);
-  try {
-    const serverResponse = await axios.get<null, AxiosResponse<PostModel[]>>(
-      "https://simple-blog-api.crew.red/posts",
-      {
-        responseType: "json"
-      }
-    );
-    const data = serverResponse.data;
-    dispatch({ type: FETCHING_SUCCES, posts: data } as onFetchSuccesAction);
-  } catch (e) {
-    dispatch({ type: FETCH_ERROR, error: e.response } as onFetchErrorAction);
-  }
-};
+export type PostsActions = fetchPostsAction | onFetchSuccesAction | onFetchErrorAction;

@@ -1,43 +1,40 @@
-import {
-  CreatePostActions,
-  RESET_FORM_INPUTS,
-  CREATING_POST_ERROR,
-  CREATE_NEW_POST
-} from "./actions";
-import { Reducer } from "redux";
-import { NewPostModel } from "../../models";
+import { CreatePostActions, RESET_FORM_INPUTS, CREATING_POST_ERROR, CREATE_NEW_POST, FORM_INPUT_CHANGE } from './actions';
+import { Reducer } from 'redux';
+import { NewPostModel } from '../../models';
 
 interface NewPostState {
-  newPost: NewPostModel;
-  error: any;
-  isSending: boolean;
+    newPost: NewPostModel;
+    error: any;
+    isSending: boolean;
 }
 
 const initialState: NewPostState = {
-  newPost: {
-    title: "",
-    body: ""
-  },
-  error: null,
-  isSending: false
+    newPost: {
+        title: '',
+        body: '',
+    },
+    error: null,
+    isSending: false,
 };
 
-export const newPostReducer: Reducer<NewPostState, CreatePostActions> = (
-  state = initialState,
-  action
-) => {
-  switch (action.type) {
-    case CREATE_NEW_POST: {
-      return { ...state, isSending: true };
+export const newPostReducer: Reducer<NewPostState, CreatePostActions> = (state = initialState, action) => {
+    switch (action.type) {
+        case CREATE_NEW_POST: {
+            return { ...state, isSending: true };
+        }
+        case RESET_FORM_INPUTS: {
+            return { ...initialState };
+        }
+        case CREATING_POST_ERROR: {
+            return { ...state, isSending: false, error: action.error };
+        }
+
+        case FORM_INPUT_CHANGE: {
+            return { ...state, newPost: action.post };
+        }
+
+        default: {
+            return state;
+        }
     }
-    case RESET_FORM_INPUTS: {
-      return { ...initialState };
-    }
-    case CREATING_POST_ERROR: {
-      return { ...state, isSending: false, error: action.error };
-    }
-    default: {
-      return state;
-    }
-  }
 };

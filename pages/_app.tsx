@@ -1,5 +1,5 @@
-import { configureStore } from "../store";
-import { Provider } from "react-redux";
+import { configureStore } from '../store';
+import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 const MyApp = ({ Component, pageProps, store }) => {
     return (

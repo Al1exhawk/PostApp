@@ -1,6 +1,5 @@
-import { Layout } from "../components"
-import { PostsConteiner } from "../containers"
-
+import { Layout } from '../components';
+import { PostsConteiner } from '../containers';
 
 const Home: React.FC = () => (
     <Layout>

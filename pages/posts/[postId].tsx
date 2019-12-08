@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { ExacPostConteiner } from '../../containers';
 import { Layout } from '../../components';
 
@@ -9,7 +9,7 @@ const ExactPost: React.FC = () => {
         <Layout>
             <ExacPostConteiner id={Array.isArray(postId) ? postId[0] : postId} />
         </Layout>
-    )
-}
+    );
+};
 
-export default ExactPost
+export default ExactPost;

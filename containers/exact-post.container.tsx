@@ -1,40 +1,35 @@
-import { GenericState, fetchExactPost } from "../store"
-import { connect } from "react-redux";
-import React from 'react'
-type Props = ReturnType<typeof mapStateToProps> & { fetchExactPost: Function, id: string }
+import { GenericState, fetchPostAction, FETCH_POST } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
+type Props = { id: string };
 
-const ExactPost: React.FC<Props> = (props) => {
-
+const ExactPost: React.FC<Props> = props => {
+    const exactPost = useSelector((state: GenericState) => ({
+        ...state.exactPost.post,
+    }));
+    const dispatch = useDispatch();
     React.useEffect(() => {
-        if (props.id) {
-            props.fetchExactPost(props.id);
-        }
-    }, [])
-
+        dispatch<fetchPostAction>({ type: FETCH_POST, id: props.id });
+    }, []);
     return (
         <div>
-
-            {props.post &&
-                <>  <h4>{props.post.id}</h4>
-                    <p><strong>Title: </strong>{props.post.title}</p>
-                    <p>{props.post.body}</p>
-                    {props.post.comments.map((comment) => {
-                        return <p>{comment.body}</p>
+            {Object.keys(exactPost).length && (
+                <>
+                    {' '}
+                    <h4>ID: {exactPost.id}</h4>
+                    <p>
+                        <strong>Title: </strong>
+                        {exactPost.title}
+                    </p>
+                    <p>{exactPost.body}</p>
+                    {exactPost.comments.map(comment => {
+                        return <p>{comment.body}</p>;
                     })}
-                </>}
+                </>
+            )}
         </div>
-    )
-}
+    );
+};
 
-const mapStateToProps = (state: GenericState) => ({
-    post: state.exactPost.post,
-    isFetching: state.exactPost.isFetching,
-    error: state.exactPost.error
-})
-
-const mapDispatchToProps = {
-    fetchExactPost
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExactPost);
+export default ExactPost;
